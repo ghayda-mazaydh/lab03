@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+main{
+    border-style: solid;
+    text-align: center;
+}
+header{
+    text-align: center;
+    font-size: xx-large;
+}
+img{
+    height: 300px;
+    max-width: 500px;
+
+}
+div{
+    border-style: solid;
+}

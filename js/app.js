@@ -10,32 +10,20 @@ function Horns(data) {
 }
 Horns.all = [];
 
-Horns.prototype.render = function() {
+Horns.prototype.render = function () {
 
-  // Create a new empty div tag
-  let hornOutput = $('<div></div>');
-      hornOutput.addClass(this.keyword);
-
-  // clone (copy) the html from inside the photo-template
-  let template = $('#photo-template').html();
-
-  // Add the template to the output div
-  hornOutput.html( template );
-
-  // Put the data in
-  hornOutput.find('h2').text( this.title );
-  hornOutput.find('img').attr('src', this.image_url);
-  hornOutput.find('p').text(this.description);
-
-  $('main').append(hornOutput);
-
+  let templateMarkup = $(`#horns-template`).html();
+  let template = Handlebars.compile(templateMarkup);
+  let hornOutput = template(this);
+  $(`#photo-template`).append(hornOutput);
 };
 
 function populateSelectBox() {
   let seen = {};
   let select = $('select');
-  Horns.all.forEach( (horn) => {
-    if ( ! seen[horn.keyword] ) {
+  select.empty();
+  Horns.all.forEach((horn) => {
+    if (!seen[horn.keyword]) {
       let option = `<option value="${horn.keyword}">${horn.keyword}</option>`;
       select.append(option);
       seen[horn.keyword] = true;
@@ -45,17 +33,30 @@ function populateSelectBox() {
   console.log(seen);
 }
 
-$('select').on('change', function() {
+$('select').on('change', function () {
   let selected = $(this).val();
   $('div').hide();
   $(`.${selected}`).fadeIn(800);
 });
 
-$.get('../data/page-1.json')
-  .then( data => {
-    data.forEach( (thing) => {
-      let horn = new Horns(thing);
-      horn.render();
-    });
-  })
-  .then( () => populateSelectBox() );
+$(`button`).on(`click`, function () {
+  let num = $(this).attr(`id`);
+  readData(num)
+})
+
+function readData(pageNum) {
+  $('div').remove();
+  Horns.all = [];
+  $.get(`../data/page-${pageNum}.json`)
+    .then(data => {
+      data.forEach((thing) => {
+        let horn = new Horns(thing);
+        horn.render();
+      });
+    })
+    .then(() => populateSelectBox());
+}
+
+$(document).ready(function() {
+  readData(1);
+})

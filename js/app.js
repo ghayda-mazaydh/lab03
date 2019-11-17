@@ -13,8 +13,11 @@ Horns.all = [];
 Horns.prototype.render = function () {
 
   let templateMarkup = $(`#horns-template`).html();
+
   let template = Handlebars.compile(templateMarkup);
+
   let hornOutput = template(this);
+
   $(`#photo-template`).append(hornOutput);
 };
 
@@ -41,13 +44,13 @@ $('select').on('change', function () {
 
 $(`button`).on(`click`, function () {
   let num = $(this).attr(`id`);
-  readData(num)
+  renderJson(num)
 })
 
-function readData(pageNum) {
+function renderJson(numOfPage) {
   $('div').remove();
   Horns.all = [];
-  $.get(`../data/page-${pageNum}.json`)
+  $.get(`../data/page-${numOfPage}.json`)
     .then(data => {
       data.forEach((thing) => {
         let horn = new Horns(thing);
@@ -57,6 +60,7 @@ function readData(pageNum) {
     .then(() => populateSelectBox());
 }
 
+// to show page 01 
 $(document).ready(function() {
-  readData(1);
+  renderJson(1);
 })

@@ -8,3 +8,8 @@ div {
   main {
     overflow:hidden;
   }
+
+  header{
+    text-align: center;
+    font-size: xx-large;
+}

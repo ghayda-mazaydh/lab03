@@ -1,7 +1,15 @@
+body {
+  background-color: rgb(235, 231, 231);
+}
+
+  main{
+        text-align: center;
+}
+
 div {
-    border: 1px solid #111;
-  }
-  
-  img {
-    max-width: 100%;
-  }
+  border: 1px solid #111;
+}
+
+img {
+  max-width: 100%;
+}
